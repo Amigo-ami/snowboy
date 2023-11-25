@@ -484,6 +484,37 @@ See [Full Documentation](http://docs.kitt.ai/snowboy).
 * VAD now returns -2 on silence, -1 on error, 0 on voice and >0 on triggered models
 * added static library for Raspberry Pi in case people want to compile themselves instead of using the binary version
 
+
+
 **v1.0.0, 5/10/2016**
 
 * initial release
+
+### snowboy Ubuntu 编译
+1. Ubuntu环境配置：
+2. sudo apt-get install  sudo apt-get install python-pyaudio python3-pyaudio sox
+   pip install pyaudio
+3.  wget http://downloads.sourceforge.net/swig/swig-3.0.10.tar.gz  //安装swig 
+    sudo apt-get install libpcre3 libpcre3-dev
+    ./configure --prefix=/usr                  \
+            --without-clisp                    \
+            --without-maximum-compile-warnings &&
+    make
+    make install &&
+    install -v -m755 -d /usr/share/doc/swig-3.0.10 &&
+    cp -v -R Doc/* /usr/share/doc/swig-3.0.10
+    
+4. Then install the `atlas` matrix computing library:
+    sudo apt-get install libatlas-base-dev  // 安装libatlas-base-dev
+5. 配置好环境以后，进入swig/Python3 开始编译snowboy库
+6. cd /snowboy/swig/Python3
+7. make
+8. 完成编译以后，会生成各种库，具体生成位置可以查看 swig 目录下的Makefile文件
+9. 本地测试,进入/snowboy/examples/python3/ 目录下
+10. 先修改该目录下的 snowboydecoder.py 文件， 将#from . import snowboydetect 换成这样
+    #from . import snowboydetect
+    import snowboydetect
+11. 运行目录下的脚本 demo.py
+12. ./demo.py ../../../resource/models/snowboy.umdl 即可进行测试
+    
+
